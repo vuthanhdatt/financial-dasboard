@@ -56,7 +56,7 @@ app.layout = html.Div([
     )
 ])
 
-
+#add
 @app.callback(
     Output('indicator-graphic', 'figure'),
     Input('xaxis-column', 'value'),
