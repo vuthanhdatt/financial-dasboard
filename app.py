@@ -1,54 +1,88 @@
-# Run this app with `python app.py` and
-# visit http://127.0.0.1:8050/ in your web browser.
-
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
 import plotly.express as px
+
 import pandas as pd
 
 app = dash.Dash(__name__)
 
-colors = {
-    'background': '#111111',
-    'text': '#7FDBFF'
-}
+df = pd.read_csv('https://plotly.github.io/datasets/country_indicators.csv')
 
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
+available_indicators = df['Indicator Name'].unique()
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+app.layout = html.Div([
+    html.Div([
 
-fig.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text']
-)
+        html.Div([
+            dcc.Dropdown(
+                id='xaxis-column',
+                options=[{'label': i, 'value': i} for i in available_indicators],
+                value='Fertility rate, total (births per woman)'
+            ),
+            dcc.RadioItems(
+                id='xaxis-type',
+                options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
+                value='Linear',
+                labelStyle={'display': 'inline-block'}
+            )
+        ], style={'width': '48%', 'display': 'inline-block'}),
 
-app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
-    html.H1(
-        children='Hello Dash',
-        style={
-            'textAlign': 'center',
-            'color': colors['text']
-        }
-    ),
+        html.Div([
+            dcc.Dropdown(
+                id='yaxis-column',
+                options=[{'label': i, 'value': i} for i in available_indicators],
+                value='Life expectancy at birth, total (years)'
+            ),
+            dcc.RadioItems(
+                id='yaxis-type',
+                options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
+                value='Linear',
+                labelStyle={'display': 'inline-block'}
+            )
+        ], style={'width': '48%', 'float': 'right', 'display': 'inline-block'})
+    ]),
 
-    html.Div(children='Dash: A web application framework for Python.', style={
-        'textAlign': 'center',
-        'color': colors['text']
-    }),
+    dcc.Graph(id='indicator-graphic'),
 
-    dcc.Graph(
-        id='example-graph-2',
-        figure=fig
+    dcc.Slider(
+        id='year--slider',
+        min=df['Year'].min(),
+        max=df['Year'].max(),
+        value=df['Year'].max(),
+        marks={str(year): str(year) for year in df['Year'].unique()},
+        step=None
     )
 ])
+
+#add abc
+@app.callback(
+    Output('indicator-graphic', 'figure'),
+    Input('xaxis-column', 'value'),
+    Input('yaxis-column', 'value'),
+    Input('xaxis-type', 'value'),
+    Input('yaxis-type', 'value'),
+    Input('year--slider', 'value'))
+def update_graph(xaxis_column_name, yaxis_column_name,
+                 xaxis_type, yaxis_type,
+                 year_value):
+    dff = df[df['Year'] == year_value]
+
+    fig = px.scatter(x=dff[dff['Indicator Name'] == xaxis_column_name]['Value'],
+                     y=dff[dff['Indicator Name'] == yaxis_column_name]['Value'],
+                     hover_name=dff[dff['Indicator Name'] == yaxis_column_name]['Country Name'])
+
+    fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
+
+    fig.update_xaxes(title=xaxis_column_name,
+                     type='linear' if xaxis_type == 'Linear' else 'log')
+
+    fig.update_yaxes(title=yaxis_column_name,
+                     type='linear' if yaxis_type == 'Linear' else 'log')
+
+    return fig
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
