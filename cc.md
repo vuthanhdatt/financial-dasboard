@@ -1,2 +1,0 @@
-# con chso Long
-# tesst
