@@ -1,1 +1,3 @@
 .fin-pack-venv
+__pycache__/
+*.pyc
