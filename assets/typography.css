@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@200&display=swap');
+
+body {
+    font-family: 'Gemunu Libre', sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: hotpink;
+    font-family : courier
+}
