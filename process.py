@@ -5,6 +5,10 @@ import warnings
 warnings.filterwarnings("ignore")
 
 def clean_marketcap_price(data='market'):
+    """
+    data: 'market' or 'price'
+    """
+    
     #Extract the Symbol in order to set the columns name
     symbol_name = [
         str(name) for name in list(pd.read_excel(config.MARKETCAP_PRICE,sheet_name='Market cap')['Symbol'])
