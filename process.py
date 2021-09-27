@@ -1,4 +1,3 @@
-#use to process data
 import pandas as pd
 import numpy as np
 import config
@@ -78,7 +77,6 @@ def full_marketcap_price(data='market'):
 
     return df
 
-
-
 if __name__ == "__main__":
-    print(full_marketcap_price(data='price'))
+    # print(full_marketcap_price(data='price'))
+    pass
