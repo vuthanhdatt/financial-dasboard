@@ -6,7 +6,8 @@ warnings.filterwarnings("ignore")
 
 def clean_marketcap_price(data='market'):
     """
-    data: 'market' or 'price'
+    Parameter:
+        data: 'market' or 'price'
     """
     
     #Extract the Symbol in order to set the columns name
@@ -53,7 +54,9 @@ def clean_marketcap_price(data='market'):
 
 def full_marketcap_price(data='market'):
     """
-    data: 'market' or 'price'
+    Return dataframe of companies with price/marketcap information.
+    Parameter:
+        data: 'market' or 'price'
     """
     if (data == 'market') or (data == 'price'):
         company = pd.read_excel(config.COMPANY)
@@ -81,6 +84,99 @@ def full_marketcap_price(data='market'):
 
     return df
 
+def profit_comparision(before='2021-01-01',after='2021-09-24',top=10,desc=True):
+    """
+    Return dataframe of top companies with the highest or lowest profit in a specified time range.
+    Parameters:
+        before: 'YYYY-MM-DD' format
+        after: 'YYYY-MM-DD' format
+        top: The number of top companies is returned
+        desc: Return dataframe in descending order if True, return dataframe in ascending order if False
+    """
+    df_price = full_marketcap_price(data='price')
+    df = df_price[
+        (df_price[before]!=0) & (df_price[after]!=0)
+    ][['Symbol','Name','Company','Industry',before,after]]
+    df['Profit'] = (df[after] - df[before])/df[before]
+    if desc == True:
+        df = df.sort_values('Profit',ascending=False).head(top).reset_index(drop=True)
+    else:
+        df = df.sort_values('Profit',ascending=True).head(top).reset_index(drop=True)
+    
+    return df
+
+def top_industry_marketcap(date='2021-09-24',top=5,desc=True,get_all=False):
+    """
+    Return top companies with highest or lowest market cap in specified time group by industry.
+    Parameters:
+        date: 'YYYY-MM-DD' format
+        top: The number of top companies is returned
+        desc: Return dataframe in descending order if True, return dataframe in ascending order if False
+        get_all: Return the whole companies with market cap in specified time group by industry.
+    """
+    df_market = full_marketcap_price(data='market')
+    df_market = df_market[df_market[date] != 0]
+    if get_all == False:
+        if desc == True:
+            order = False
+        else:
+            order = True  
+        industry_info = [
+            df_market[
+                df_market['Industry']==industry][['Symbol','Name','Company','Industry',date]]\
+                    .sort_values(by=date,ascending=order).head(top)\
+                        for industry in df_market['Industry'].unique()
+            ]
+        df = pd.concat(industry_info).reset_index(drop=True)
+    else:
+        df = df_market[['Symbol','Name','Company','Industry',date]].sort_values(by='Industry').reset_index(drop=True)
+
+    df.rename(columns={date:'MarketCap'},inplace=True)
+    return df
+
+def greater_price(week=52,date='2021-09-24'):
+    """
+    Return dataframe of companies have price above the specified week mark
+    Parameters: 
+        week: Number of weeks is selected as the mark
+        date: 'YYYY-MM-DD' format, date is selected for comparision
+    """
+    from datetime import datetime as dt
+    from datetime import timedelta as delta
+
+    df_price = full_marketcap_price(data='price')
+    df_price = df_price[df_price[date] != 0]
+
+    compare_tail = dt.strftime((dt.strptime(date,'%Y-%m-%d') - delta(days=1)),'%Y-%m-%d')
+    compare_head = dt.strftime((dt.strptime(compare_tail,'%Y-%m-%d') - delta(weeks=week)),'%Y-%m-%d')
+
+    def date_available(to_convert):    
+        date_list = df_price.columns
+        if to_convert not in date_list:
+            sub = dt.strptime(to_convert,'%Y-%m-%d')- delta(days=1)
+            to_convert = dt.strftime(sub,'%Y-%m-%d')
+            if to_convert not  in date_list:
+                sub = dt.strptime(to_convert,'%Y-%m-%d')- delta(days=1)
+                to_convert = dt.strftime(sub,'%Y-%m-%d')
+        
+        return to_convert
+    
+    tail_available = date_available(compare_tail)
+    head_available = date_available(compare_head)
+
+    df = df_price.loc[:,head_available:tail_available]
+    df['Max Price'] = df.max(axis=1)
+    df = df_price[['Symbol','Name','Company','Industry',date]].join(df)
+    df = df[(df[date] > df['Max Price'])]\
+        [['Symbol','Name','Company','Industry','Max Price',date]].reset_index(drop=True)
+    df['Difference'] = df[date]-df['Max Price']
+
+    return df
+
 if __name__ == "__main__":
-    # print(full_marketcap_price(data='price'))
+    # print(profit_comparision(before='2021-09-01',after='2021-09-24',top=10,desc='True'))
+    # print(profit_comparision(before='2021-01-01',after='2021-09-24',top=10,desc=False))
+    # print(greater_price(week=52,date='2021-09-24'))
+    # print(top_industry_marketcap(date='2021-09-24',top=5,desc=True))
+    # print(top_industry_marketcap(date='2021-09-24',get_all=True))
     pass
