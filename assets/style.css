@@ -1,0 +1,95 @@
+body {
+  margin: 0;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  font-size: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  grid-template-rows: repeat(20, 1fr);
+  box-sizing: border-box;
+  gap: 5px;
+  background-color: #f2f0eb;
+}
+.container div {
+  
+  text-align: center;
+  
+  border: 1px solid black;
+}
+.plot-1 {
+  display: grid;
+  grid-row-start: 1;
+  grid-row-end: 7;
+  grid-template-columns: 1;
+  grid-template-rows: repeat(7,1fr);
+  gap: 10px;
+}
+.plot-1 div {
+  text-align: center;
+  border: 1px solid black;
+}
+.plot-1-date {
+  grid-row-start: 1;
+}
+.plot-1-plot {
+  grid-row-start: 2;
+  grid-row-end: 8;
+}
+.title {
+  grid-row-start: 2;
+  grid-row-end: 4;
+}
+.plot-2 {
+  grid-row-start: 15;
+  grid-row-end: 21;
+  display: grid;
+  grid-template-columns: 1;
+  grid-template-rows: repeat(7,1fr);
+  gap: 10px;
+
+}
+.plot-2 div {
+  text-align: center;
+  border: 1px solid black;
+}
+.plot-2-date {
+  grid-row-start: 1;
+}
+.plot-2-plot {
+  grid-row-start: 2;
+  grid-row-end: 8;
+}
+
+.plot-3 {
+  grid-row-start: 1;
+  grid-row-end: 7;
+}
+.plot-4 {
+  grid-column-start: 3;
+  grid-row-start: 15;
+  grid-row-end: 21;
+  display: grid;
+  grid-template-columns: 1;
+  grid-template-rows: repeat(7,1fr);
+  gap: 10px;
+}
+.plot-4 div {
+  text-align: center;
+  border: 1px solid black;
+}
+.plot-4-plot {
+  grid-row-start: 2;
+  grid-row-end: 8;
+}
+.plot-5{
+  grid-column-start: 2;
+  grid-row-start: 7;
+  grid-row-end: 15;
+}
+.credit {
+  grid-row-start: 17;
+  grid-row-end: 19;
+}
