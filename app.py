@@ -20,11 +20,14 @@ app.layout = html.Div(
         html.Div(
             [
                 dcc.DatePickerRange(
-                    id='my-date-picker-range',
+                    id='plot-1-picker',
                     min_date_allowed=date(2019, 9, 24),
                     max_date_allowed=date(2021, 9, 24),
-                    initial_visible_month=date(2017, 8, 5),
-                    end_date=date(2017, 8, 25)
+                    start_date_placeholder_text = '2021-01-01',
+                    start_date= '2021-01-01',
+                    end_date_placeholder_text = '2021-09-24',
+                    end_date= '2021-09-24',
+                    className= 'plot-1-date'
                 ),
                 dcc.Graph(
                     id= 'plot-1-fig',

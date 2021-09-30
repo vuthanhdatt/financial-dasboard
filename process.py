@@ -84,6 +84,7 @@ def full_marketcap_price(data='market'):
 
     return df
 
+
 def profit_comparision(before='2021-01-01',after='2021-09-24',top=10,desc=True):
     """
     Return dataframe of top companies with the highest or lowest profit in a specified time range.
@@ -93,7 +94,7 @@ def profit_comparision(before='2021-01-01',after='2021-09-24',top=10,desc=True):
         top: The number of top companies is returned
         desc: Return dataframe in descending order if True, return dataframe in ascending order if False
     """
-    df_price = full_marketcap_price(data='price')
+    df_price = full_marketcap_price(data='price') # Để cái này ra ngoài chứ mày để trong hàm mỗi lần gọi hàm nó lại gọi lại cái này à thằng l
     df = df_price[
         (df_price[before]!=0) & (df_price[after]!=0)
     ][['Symbol','Name','Company','Industry',before,after]]
