@@ -8,10 +8,8 @@ from dash.dependencies import Input, Output
 
 import plotly.express as px
 
-from process import profit_comparision,full_marketcap_price         #Import them cai nay ne
-data_price = full_marketcap_price(data='price')         #Gan cai nay lam df tong, no se lam bien 'data' trong cac ham ve cua may
-# df = profit_comparision(data=data_price,before='2020-08-05')         #Xoa cai nay di         
-# fig = px.bar(df, x='Symbol', y='Profit')                          #Xoa nay nua
+from process import profit_comparision,full_marketcap_price        
+data_price = full_marketcap_price(data='price')         
 app = dash.Dash(__name__)
 
 app.layout = html.Div(

@@ -89,11 +89,11 @@ def date_available(to_convert):
     from datetime import timedelta as delta   
 
     if dt.strptime(to_convert,'%Y-%m-%d').weekday() == 6:   #Sunday
-        add = dt.strptime(to_convert,'%Y-%m-%d') + delta(days=1)        #Convert to the closet Monday
-        to_convert = dt.strftime(add,'%Y-%m-%d')
+        sub = dt.strptime(to_convert,'%Y-%m-%d') - delta(days=2)        #Convert to the closet Friday
+        to_convert = dt.strftime(sub,'%Y-%m-%d')
     elif dt.strptime(to_convert,'%Y-%m-%d').weekday() == 5:     #Saturday
-        add = dt.strptime(to_convert,'%Y-%m-%d') + delta(days=2)    #Convert to the closet Monday
-        to_convert = dt.strftime(add,'%Y-%m-%d')
+        sub = dt.strptime(to_convert,'%Y-%m-%d') - delta(days=1)    #Convert to the closet Friday
+        to_convert = dt.strftime(sub,'%Y-%m-%d')
     else:
         return to_convert
     
