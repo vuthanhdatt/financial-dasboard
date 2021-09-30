@@ -22,14 +22,17 @@ app.layout = html.Div(
                 html.Div(
                     'Choose date', className='plot-1-date'
                 ),
+                
                 html.Div(
-                    'Plot 1', className= 'plot-1-plot'
+                    'Plot 1', className='plot-1-plot'
                 )
             ], className= 'plot-1'
         ),
         html.Div(
             [
-                'Singapore Stock Market Dashboard'
+                html.Div(
+                    'Singapore Stock Market Dasboard', className='title-inside'
+                )
             ], className= 'title'
         ),
         html.Div(
