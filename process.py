@@ -84,17 +84,34 @@ def full_marketcap_price(data='market'):
 
     return df
 
+def date_available(to_convert):
+    from datetime import datetime as dt
+    from datetime import timedelta as delta   
 
-def profit_comparision(before='2021-01-01',after='2021-09-24',top=10,desc=True):
+    if dt.strptime(to_convert,'%Y-%m-%d').weekday() == 6:   #Sunday
+        add = dt.strptime(to_convert,'%Y-%m-%d') + delta(days=1)        #Convert to the closet Monday
+        to_convert = dt.strftime(add,'%Y-%m-%d')
+    elif dt.strptime(to_convert,'%Y-%m-%d').weekday() == 5:     #Saturday
+        add = dt.strptime(to_convert,'%Y-%m-%d') + delta(days=2)    #Convert to the closet Monday
+        to_convert = dt.strftime(add,'%Y-%m-%d')
+    else:
+        return to_convert
+    
+    return to_convert
+
+def profit_comparision(data,before='2021-01-01',after='2021-09-24',top=10,desc=True):
     """
     Return dataframe of top companies with the highest or lowest profit in a specified time range.
     Parameters:
+        data: dataframe from full_marketcap_price function
         before: 'YYYY-MM-DD' format
         after: 'YYYY-MM-DD' format
         top: The number of top companies is returned
         desc: Return dataframe in descending order if True, return dataframe in ascending order if False
     """
-    df_price = full_marketcap_price(data='price') # Để cái này ra ngoài chứ mày để trong hàm mỗi lần gọi hàm nó lại gọi lại cái này à thằng l
+    before = date_available(before)
+    after = date_available(after)
+    df_price = data
     df = df_price[
         (df_price[before]!=0) & (df_price[after]!=0)
     ][['Symbol','Name','Company','Industry',before,after]]
@@ -106,16 +123,18 @@ def profit_comparision(before='2021-01-01',after='2021-09-24',top=10,desc=True):
     
     return df
 
-def top_industry_marketcap(date='2021-09-24',top=5,desc=True,get_all=False):
+def top_industry_marketcap(data,date='2021-09-24',top=5,desc=True,get_all=False):
     """
     Return top companies with highest or lowest market cap in specified time group by industry.
     Parameters:
+        data: dataframe from full_marketcap_price function
         date: 'YYYY-MM-DD' format
         top: The number of top companies is returned
         desc: Return dataframe in descending order if True, return dataframe in ascending order if False
         get_all: Return the whole companies with market cap in specified time group by industry.
     """
-    df_market = full_marketcap_price(data='market')
+    date = date_available(date)
+    df_market = data
     df_market = df_market[df_market[date] != 0]
     if get_all == False:
         if desc == True:
@@ -135,32 +154,22 @@ def top_industry_marketcap(date='2021-09-24',top=5,desc=True,get_all=False):
     df.rename(columns={date:'MarketCap'},inplace=True)
     return df
 
-def greater_price(week=52,date='2021-09-24'):
+def greater_price(data,week=52,date='2021-09-24'):
     """
     Return dataframe of companies have price above the specified week mark
     Parameters: 
+        data: dataframe from full_marketcap_price function
         week: Number of weeks is selected as the mark
         date: 'YYYY-MM-DD' format, date is selected for comparision
     """
     from datetime import datetime as dt
     from datetime import timedelta as delta
 
-    df_price = full_marketcap_price(data='price')
+    df_price = data
     df_price = df_price[df_price[date] != 0]
 
     compare_tail = dt.strftime((dt.strptime(date,'%Y-%m-%d') - delta(days=1)),'%Y-%m-%d')
     compare_head = dt.strftime((dt.strptime(compare_tail,'%Y-%m-%d') - delta(weeks=week)),'%Y-%m-%d')
-
-    def date_available(to_convert):    
-        date_list = df_price.columns
-        if to_convert not in date_list:
-            sub = dt.strptime(to_convert,'%Y-%m-%d')- delta(days=1)
-            to_convert = dt.strftime(sub,'%Y-%m-%d')
-            if to_convert not  in date_list:
-                sub = dt.strptime(to_convert,'%Y-%m-%d')- delta(days=1)
-                to_convert = dt.strftime(sub,'%Y-%m-%d')
-        
-        return to_convert
     
     tail_available = date_available(compare_tail)
     head_available = date_available(compare_head)
@@ -175,9 +184,11 @@ def greater_price(week=52,date='2021-09-24'):
     return df
 
 if __name__ == "__main__":
-    print(profit_comparision(before='2021-08-06',after='2021-09-24',top=10, desc= True))
-    # print(profit_comparision(before='2021-01-01',after='2021-09-24',top=10,desc=False))
-    # print(greater_price(week=52,date='2021-09-24'))
-    # print(top_industry_marketcap(date='2021-09-24',top=5,desc=True))
-    # print(top_industry_marketcap(date='2021-09-24',get_all=True))
+    data_market = full_marketcap_price(data='market')
+    data_price = full_marketcap_price(data='price')
+    print(profit_comparision(data=data_price,before='2021-08-06',after='2021-09-24',top=10, desc= True))
+    # print(profit_comparision(data=data_price,before='2021-01-01',after='2021-09-24',top=10,desc=False))
+    # print(greater_price(data=data_price,week=52,date='2021-09-24'))
+    # print(top_industry_marketcap(data=data_market,date='2021-09-24',top=5,desc=True))
+    # print(top_industry_marketcap(data=data_market,date='2021-09-24',get_all=True))
     

@@ -8,11 +8,10 @@ from dash.dependencies import Input, Output
 
 import plotly.express as px
 
-from process import profit_comparision
-
-df = profit_comparision(before='2020-08-05')
-fig = px.bar(df, x='Symbol', y='Profit')
-
+from process import profit_comparision,full_marketcap_price         #Import them cai nay ne
+data_price = full_marketcap_price(data='price')         #Gan cai nay lam df tong, no se lam bien 'data' trong cac ham ve cua may
+# df = profit_comparision(data=data_price,before='2020-08-05')         #Xoa cai nay di         
+# fig = px.bar(df, x='Symbol', y='Profit')                          #Xoa nay nua
 app = dash.Dash(__name__)
 
 app.layout = html.Div(
@@ -88,7 +87,7 @@ app.layout = html.Div(
     Input('plot-1-picker', 'end_date'))
 
 def draw_fig1(start_date, end_date):
-    fig1_df = profit_comparision(before=start_date, after=end_date)
+    fig1_df = profit_comparision(data=data_price,before=start_date, after=end_date)
     fig = px.bar(fig1_df, x='Symbol', y='Profit')
     return fig
 
