@@ -1,14 +1,17 @@
 
 import dash
-
 import dash_core_components as dcc
 import dash_html_components as html
-
+import plotly.graph_objs as go
+from datetime import date
+from dash.dependencies import Input, Output
 
 import plotly.express as px
 
-df = px.data.iris()  # iris is a pandas DataFrame
-fig = px.scatter(df, x="sepal_width", y="sepal_length")
+from process import profit_comparision
+
+df = profit_comparision(before='2020-08-05')
+fig = px.bar(df, x='Symbol', y='Profit')
 
 app = dash.Dash(__name__)
 
@@ -16,13 +19,18 @@ app.layout = html.Div(
     children=[
         html.Div(
             [
-                html.Div(
-                    'Choose date', className='plot-1-date'
+                dcc.DatePickerRange(
+                    id='my-date-picker-range',
+                    min_date_allowed=date(2019, 9, 24),
+                    max_date_allowed=date(2021, 9, 24),
+                    initial_visible_month=date(2017, 8, 5),
+                    end_date=date(2017, 8, 25)
                 ),
-                
-                html.Div(
-                    'Plot 1', className='plot-1-plot'
+                dcc.Graph(
+                    id= 'plot-1-fig',
+                    className='plot-1-plot'
                 )
+
             ], className= 'plot-1'
         ),
         html.Div(
@@ -71,8 +79,15 @@ app.layout = html.Div(
     ], className= 'container'
 )
 
-  
+@app.callback(
+    Output('plot-1-fig', 'figure'),
+    Input('plot-1-picker', 'start_date'),
+    Input('plot-1-picker', 'end_date'))
 
+def draw_fig1(start_date, end_date):
+    fig1_df = profit_comparision(before=start_date, after=end_date)
+    fig = px.bar(fig1_df, x='Symbol', y='Profit')
+    return fig
 
 
 if __name__ == '__main__':

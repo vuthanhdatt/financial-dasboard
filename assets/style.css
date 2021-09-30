@@ -15,11 +15,8 @@ body {
   row-gap: 15px;
   background-color: #f2f0eb;
 }
-.container div {
-  
-  text-align: center;
-  
-}
+
+/* add style for plot 1 */
 .plot-1 {
   display: grid;
   grid-column-start: 1;
@@ -30,13 +27,12 @@ body {
   grid-template-rows: repeat(10,1fr);
   gap: 10px;
 }
-.plot-1 div {
-  text-align: center;
-  border: 1px solid black;
-}
+
 .plot-1-date {
   grid-row-start: 1;
+  
 }
+
 .plot-1-plot {
   grid-row-start: 2;
   grid-row-end: 12;

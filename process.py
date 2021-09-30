@@ -174,9 +174,9 @@ def greater_price(week=52,date='2021-09-24'):
     return df
 
 if __name__ == "__main__":
-    # print(profit_comparision(before='2021-09-01',after='2021-09-24',top=10,desc='True'))
+    print(profit_comparision(before='2021-08-06',after='2021-09-24',top=10, desc= True))
     # print(profit_comparision(before='2021-01-01',after='2021-09-24',top=10,desc=False))
     # print(greater_price(week=52,date='2021-09-24'))
     # print(top_industry_marketcap(date='2021-09-24',top=5,desc=True))
     # print(top_industry_marketcap(date='2021-09-24',get_all=True))
-    pass
+    
