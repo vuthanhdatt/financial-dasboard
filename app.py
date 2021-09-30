@@ -1,12 +1,9 @@
 
 import dash
-from dash.dcc.Tab import Tab
-from dash.dcc.Tabs import Tabs
-from dash.html.Div import Div
-from dash.html.Label import Label
+
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+
 
 import plotly.express as px
 
