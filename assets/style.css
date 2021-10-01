@@ -32,6 +32,54 @@ body {
   grid-row-start: 1;
   
 }
+/* Change layout of plot-1 date picker */
+#plot-1-picker .DateRangePicker {
+  border: 1px solid black;
+}
+
+#plot-1-picker .DateRangePickerInput__withBorder{
+  border: 1px solid #f2f0eb;
+}
+#plot-1-picker .DateRangePickerInput{
+  background-color: #f2f0eb;
+}
+#plot-1-picker  .DateRangePicker_picker{
+  background-color: #f2f0eb;
+  border: 1px solid black;
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+#plot-1-picker .DayPicker__horizontal{
+  background-color: #f2f0eb;
+
+}
+#plot-1-picker .CalendarDay__selected_span{
+  background: #d6e4ea;
+  border: 1px double black;
+
+}
+#plot-1-picker  .CalendarDay__selected{
+  background: #004172;
+  border: 1px double black;
+
+}
+#plot-1-picker .CalendarMonth { 
+  background-color: #f2f0eb;
+}
+#plot-1-picker .CalendarMonthGrid {
+  background-color: #f2f0eb;
+
+}
+#plot-1-picker .DateInput_input{
+  background-color: #f2f0eb;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: medium;
+}
+#plot-1-picker .DateInput_input__focused{
+  background-color: #f2f0eb;
+  border-bottom: 1.5px solid black;
+}
+/* End of change layout of plot-1 date picker */
+
 
 .plot-1-plot {
   grid-row-start: 2;
