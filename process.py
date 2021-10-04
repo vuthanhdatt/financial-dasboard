@@ -115,7 +115,7 @@ def profit_comparision(data,before='2021-01-01',after='2021-09-24',top=10,desc=T
     df = df_price[
         (df_price[before]!=0) & (df_price[after]!=0)
     ][['Symbol','Name','Company','Industry',before,after]]
-    df['Profit'] = (df[after] - df[before])/df[before]
+    df['Profit'] = (df[after] - df[before])/df[before] *100
     if desc == True:
         df = df.sort_values('Profit',ascending=False).head(top).reset_index(drop=True)
     else:
@@ -123,7 +123,7 @@ def profit_comparision(data,before='2021-01-01',after='2021-09-24',top=10,desc=T
     
     return df
 
-def top_industry_marketcap(data,date='2021-09-24',top=5,desc=True,get_all=False):
+def top_industry_marketcap(data, industry='Financials', date='2021-09-24',top=5,desc=True,get_all=False):
     """
     Return top companies with highest or lowest market cap in specified time group by industry.
     Parameters:
@@ -152,7 +152,7 @@ def top_industry_marketcap(data,date='2021-09-24',top=5,desc=True,get_all=False)
         df = df_market[['Symbol','Name','Company','Industry',date]].sort_values(by='Industry').reset_index(drop=True)
 
     df.rename(columns={date:'MarketCap'},inplace=True)
-    return df
+    return df[df['Industry'] == industry]
 
 def greater_price(data,week=52,date='2021-09-24'):
     """
@@ -183,12 +183,14 @@ def greater_price(data,week=52,date='2021-09-24'):
 
     return df
 
+
 if __name__ == "__main__":
-    data_market = full_marketcap_price(data='market')
+    # data_market = full_marketcap_price(data='market')
     data_price = full_marketcap_price(data='price')
-    print(profit_comparision(data=data_price,before='2021-08-06',after='2021-09-24',top=10, desc= True))
-    # print(profit_comparision(data=data_price,before='2021-01-01',after='2021-09-24',top=10,desc=False))
-    # print(greater_price(data=data_price,week=52,date='2021-09-24'))
+    # print(profit_comparision(data=data_price,before='2021-08-06',after='2021-09-24',top=10, desc= True))
+    # print(profit_comparision(data=data_price,before='2020-02-11',after='2021-09-24',top=10,desc=False))
+    # print(greater_price(data=data_price,week=52,date='2021-08-24'))
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',top=5,desc=True))
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',get_all=True))
+    
     

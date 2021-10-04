@@ -8,8 +8,14 @@ from dash.dependencies import Input, Output
 
 import plotly.express as px
 
-from process import profit_comparision,full_marketcap_price        
-data_price = full_marketcap_price(data='price')         
+from process import profit_comparision,full_marketcap_price, top_industry_marketcap        
+data_price = full_marketcap_price(data='price')  
+data_market = full_marketcap_price(data='market')
+list_industry =list(data_market['Industry'].unique())    
+options = []
+for industry in list_industry:
+    options.append(dict(zip(['label','value'],[industry,industry])))
+
 app = dash.Dash(__name__)
 
 app.layout = html.Div(
@@ -36,18 +42,27 @@ app.layout = html.Div(
         html.Div(
             [
                 html.Div(
-                    'Singapore Stock Market Dasboard', className='title-inside'
+                    'SINGAPORE STOCK MARKET DASHBOARD', className='title-inside'
                 )
             ], className= 'title'
         ),
         html.Div(
             [
-                html.Div(
-                    'Choose date', className='plot-2-date'
+                dcc.DatePickerRange(
+                    id='plot-2-picker',
+                    min_date_allowed=date(2019, 9, 24),
+                    max_date_allowed=date(2021, 9, 24),
+                    start_date_placeholder_text = '2021-01-01',
+                    start_date= '2021-01-01',
+                    end_date_placeholder_text = '2021-09-24',
+                    end_date= '2021-09-24',
+                    className= 'plot-2-date'
                 ),
-                html.Div(
-                    'Plot 2', className= 'plot-2-plot'
+                dcc.Graph(
+                    id= 'plot-2-fig',
+                    className='plot-2-plot'
                 )
+
             ], className= 'plot-2'
         ),
         html.Div(
@@ -62,11 +77,16 @@ app.layout = html.Div(
         ),
         html.Div(
             [
-                html.Div(
-                    'Drop down', className='drop-down-plot-4'
+                dcc.Dropdown(
+                    id='plot-4-dropdown',
+                    options=options,
+                    value='Finanicals',
+                    className='drop-down-plot-4',
+                    placeholder="Select Industrials"
                 ),
-                html.Div(
-                    'Plot 4', className= 'plot-4-plot'
+                dcc.Graph(
+                    id= 'plot-4-fig', 
+                    className= 'plot-4-plot'
                 )
             ], className= 'plot-4'
         ),
@@ -87,8 +107,30 @@ app.layout = html.Div(
 def draw_fig1(start_date, end_date):
     fig1_df = profit_comparision(data=data_price,before=start_date, after=end_date)
     fig = px.bar(fig1_df, x='Symbol', y='Profit')
+    fig.update_layout(margin_b = 0,
+                    margin_l= 0,
+                    margin_r = 0,
+                    margin_t = 0)
     return fig
 
+@app.callback(
+    Output('plot-2-fig', 'figure'),
+    Input('plot-2-picker', 'start_date'),
+    Input('plot-2-picker', 'end_date'))
+
+def draw_fig2(start_date, end_date):
+    fig2_df = profit_comparision(data=data_price,before=start_date, after=end_date, desc= False)
+    fig = px.bar(fig2_df, x='Symbol', y='Profit')
+    return fig
+
+@app.callback(
+    Output('plot-4-fig', 'figure'),
+    Input('plot-4-dropdown', 'value')
+)
+def  draw_fig4(value):
+    fig4_df = top_industry_marketcap(data=data_market, industry=value)
+    fig = px.bar(fig4_df, x='Symbol', y='MarketCap')
+    return fig
 
 if __name__ == '__main__':
     app.run_server(debug=True)
