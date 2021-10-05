@@ -128,10 +128,11 @@ def top_industry_marketcap(data, industry='Financials', date='2021-09-24',top=5,
     Return top companies with highest or lowest market cap in specified time group by industry.
     Parameters:
         data: dataframe from full_marketcap_price function
+        industry: Return dataframe filtered by industry. If industry = "all", return the whole industry 
         date: 'YYYY-MM-DD' format
         top: The number of top companies is returned
         desc: Return dataframe in descending order if True, return dataframe in ascending order if False
-        get_all: Return the whole companies with market cap in specified time group by industry.
+        get_all: Return the whole companies with market cap in specified time group by industry
     """
     date = date_available(date)
     df_market = data
@@ -152,6 +153,10 @@ def top_industry_marketcap(data, industry='Financials', date='2021-09-24',top=5,
         df = df_market[['Symbol','Name','Company','Industry',date]].sort_values(by='Industry').reset_index(drop=True)
 
     df.rename(columns={date:'MarketCap'},inplace=True)
+    
+    if industry == 'all':
+        return df
+    
     return df[df['Industry'] == industry]
 
 def greater_price(data,week=52,date='2021-09-24'):
@@ -164,7 +169,9 @@ def greater_price(data,week=52,date='2021-09-24'):
     """
     from datetime import datetime as dt
     from datetime import timedelta as delta
-
+    
+    date = date_available(date)
+    
     df_price = data
     df_price = df_price[df_price[date] != 0]
 
