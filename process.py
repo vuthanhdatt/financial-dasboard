@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import config
 import warnings
+from datetime import datetime as dt
+from datetime import timedelta as delta
 warnings.filterwarnings("ignore")
 
 def clean_marketcap_price(data='market'):
@@ -56,6 +58,7 @@ def full_marketcap_price(data='market'):
     Parameter:
         data: 'market' or 'price'
     """
+
     if (data == 'market') or (data == 'price'):
         company = pd.read_excel(config.COMPANY)
         #Choose columns to merge and rename them
@@ -77,6 +80,19 @@ def full_marketcap_price(data='market'):
         #Correct datatype of df
         for col in df.columns[6:]:
             df[col] = df[col].astype('float64')
+        #Correct data of Delist or Suspended company 
+        delist_time = [name.split('.')[-1] for name in df.loc[df['Status Name'].str.contains('DELIST')]['Status Name']]
+        delist_time = [date_available(dt.strftime(dt.strptime(i,'%d/%m/%y'),'%Y-%m-%d')) for i in delist_time]
+        delist_code = [code for code in df.loc[df['Status Name'].str.contains('DELIST')]['Symbol']]
+        delist = {delist_code[i]:delist_time[i] for i in range(len(delist_time))}
+        for symbol,date in delist.items():
+            df.loc[df['Symbol'] == symbol,date:] = 0
+        susp_time = [name.split('.')[-1] for name in df.loc[df['Status Name'].str.contains('SUSP')]['Status Name']]
+        susp_time = [date_available(dt.strftime(dt.strptime(i,'%d/%m/%y'),'%Y-%m-%d')) for i in susp_time]
+        susp_code = [code for code in df.loc[df['Status Name'].str.contains('SUSP')]['Symbol']]
+        susp = {susp_code[i]:susp_time[i] for i in range(len(susp_time))}
+        for symbol,date in susp.items():
+            df.loc[df['Symbol'] == symbol,date:] = 0
     else:
         return 'Dataset not found.'
 
@@ -197,5 +213,6 @@ if __name__ == "__main__":
     # print(greater_price(data=data_price,week=52,date='2021-08-24'))
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',top=5,desc=True))
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',get_all=True))
+    # print(data_price.loc[data_price['Symbol'] == 'T:KTLG','2021-08-17':])
     
     
