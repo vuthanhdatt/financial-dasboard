@@ -45,10 +45,8 @@ def clean_marketcap_price(data='market'):
             missing_col[col_countnull.loc[i,'index']] = col_countnull.loc[i,0]
     #Fill the missing values 
     for col in missing_col:
-        if missing_col[col] < 30:
-            df[col].fillna(method='bfill',inplace=True)
-        else:
-            df[col].fillna(value=0,inplace=True)
+        #Because the missing value is only located in the left tail, it implies that the company was not listed on those days.
+        df[col].fillna(value=0,inplace=True)
 
     return df
 
