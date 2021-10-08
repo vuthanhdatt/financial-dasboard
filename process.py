@@ -99,9 +99,6 @@ def full_marketcap_price(data='market'):
     return df
 
 def date_available(to_convert):
-    from datetime import datetime as dt
-    from datetime import timedelta as delta   
-
     if dt.strptime(to_convert,'%Y-%m-%d').weekday() == 6:   #Sunday
         sub = dt.strptime(to_convert,'%Y-%m-%d') - delta(days=2)        #Convert to the closet Friday
         to_convert = dt.strftime(sub,'%Y-%m-%d')
