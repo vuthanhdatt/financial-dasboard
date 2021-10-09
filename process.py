@@ -198,9 +198,9 @@ def greater_price(data,week=52,date='2021-09-24'):
 
     df = df_price.loc[:,head_available:tail_available]
     df['Max Price'] = df.max(axis=1)
-    df = df_price[['Symbol','Name','Company','Industry',date]].join(df)
-    df = df[(df[date] > df['Max Price'])]\
-        [['Symbol','Name','Company','Industry','Max Price',date]].reset_index(drop=True)
+    df = df_price[['Symbol','Name','Company','Industry']].join(df)
+    df = df.join(df_price[date])
+    df = df[(df[date] > df['Max Price'])].reset_index(drop=True)
     df['Difference'] = df[date]-df['Max Price']
 
     return df
@@ -211,9 +211,9 @@ if __name__ == "__main__":
     data_price = full_marketcap_price(data='price')
     # print(profit_comparision(data=data_price,before='2021-08-06',after='2021-09-24',top=10, desc= True))
     # print(profit_comparision(data=data_price,before='2020-02-11',after='2021-09-24',top=10,desc=False))
-    # print(greater_price(data=data_price,week=52,date='2021-08-24'))
+    print(greater_price(data=data_price,week=52,date='2021-08-24'))
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',top=5,desc=True))
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',get_all=True))
-    # print(data_price.loc[data_price['Symbol'] == 'T:KTLG','2021-08-17':])
+    # print(data_price)
     
     
