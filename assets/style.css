@@ -18,14 +18,16 @@ body {
 
 /* Add style for plot 1 */
 .plot-1 {
-  display: grid;
+  grid-row-start: 21;
+  grid-row-end: 30;
   grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  grid-row-end: 11;
+  grid-column-end: 4;
+  
+  display: grid;
   grid-template-columns: 1;
   grid-template-rows: repeat(10,1fr);
   gap: 10px;
+  
 }
 
 .plot-1-date {
@@ -35,6 +37,7 @@ body {
 .plot-1-plot {
   grid-row-start: 2;
   grid-row-end: 12;
+  border: 1px solid black;
 }
 
 /* Change layout of plot-1 date picker */
@@ -107,15 +110,15 @@ body {
 
 /* Add style for plot 2 */
 .plot-2 {
-  
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 11;
-  grid-row-end: 21;
+  grid-column-start: 4;
+  grid-column-end: 7;
+  grid-row-start: 21;
+  grid-row-end: 30;
   display: grid;
   grid-template-columns: 1;
   grid-template-rows: repeat(10,1fr);
   gap: 10px;
+  
 
 }
 
@@ -125,6 +128,7 @@ body {
 .plot-2-plot {
   grid-row-start: 2;
   grid-row-end: 12;
+  border: 1px solid black;
 }
 /* Change layout of plot-2 date picker */
 #plot-2-picker .DateRangePicker {
@@ -175,12 +179,11 @@ body {
 
 /* PLot-3 */
 .plot-3 {
-  grid-row-start: 21;
-  grid-row-end: 30;
-  grid-column-start: 1;
-  grid-column-end: 4;
-  border: 1px solid black;
   display: grid;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 11;
   grid-template-columns: 1;
   grid-template-rows: repeat(10,1fr);
   gap: 10px;
@@ -196,10 +199,10 @@ body {
 
 .plot-4 {
   
-  grid-column-start: 4;
-  grid-column-end: 7;
-  grid-row-start: 21;
-  grid-row-end: 30;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 11;
+  grid-row-end: 21;
   display: grid;
   grid-template-columns: 1;
   grid-template-rows: repeat(10,1fr);
@@ -212,6 +215,7 @@ body {
 .plot-4-plot {
   grid-row-start: 2;
   grid-row-end: 12;
+  border: 1px solid black;
 }
 /* plot-4-dropdown */
 #plot-4-dropdown .Select-control {
@@ -221,7 +225,7 @@ body {
 
 }
 #plot-4-dropdown .Select-menu-outer {
-  background: #219fff;
+  background: #D6E4EA;
   font-family: "Lucida Console", "Courier New", monospace;
 }
 .plot-5{
