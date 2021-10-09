@@ -80,6 +80,9 @@ def full_marketcap_price(data='market'):
         #Correct datatype of df
         for col in df.columns[6:]:
             df[col] = df[col].astype('float64')
+        #Delete Exchange-traded fund and company was not listed in Singagore
+        df = df[~df['Name'].str.contains("\\(SES")]
+        df = df[~df['Name'].str.contains("ETF")]
         #Correct data of Delist or Suspended company 
         delist_time = [name.split('.')[-1] for name in df.loc[df['Status Name'].str.contains('DELIST')]['Status Name']]
         delist_time = [date_available(dt.strftime(dt.strptime(i,'%d/%m/%y'),'%Y-%m-%d')) for i in delist_time]
