@@ -207,12 +207,12 @@ def greater_price(data,week=52,date='2021-09-24'):
 
 
 if __name__ == "__main__":
-    # data_market = full_marketcap_price(data='market')
+    data_market = full_marketcap_price(data='market')
     data_price = full_marketcap_price(data='price')
     # print(profit_comparision(data=data_price,before='2021-08-06',after='2021-09-24',top=10, desc= True))
     # print(profit_comparision(data=data_price,before='2020-02-11',after='2021-09-24',top=10,desc=False))
-    print(greater_price(data=data_price,week=52,date='2021-08-24'))
-    # print(top_industry_marketcap(data=data_market,date='2021-09-24',top=5,desc=True))
+    print(greater_price(data=data_price,week=52,date='2021-09-24'))
+    # print(top_industry_marketcap(data=data_market,date='2021-09-24',top=5,desc=True,industry='all'))
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',get_all=True))
     # print(data_price)
     
