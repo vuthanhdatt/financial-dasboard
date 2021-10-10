@@ -4,6 +4,7 @@ import config
 import warnings
 from datetime import datetime as dt
 from datetime import timedelta as delta
+import plotly.express as px
 warnings.filterwarnings("ignore")
 
 def clean_marketcap_price(data='market'):
@@ -97,6 +98,16 @@ def full_marketcap_price(data='market'):
         susp = {susp_code[i]:susp_time[i] for i in range(len(susp_time))}
         for symbol,date in susp.items():
             df.loc[df['Symbol'] == symbol,date:] = 0
+        #Remove duplicated companies
+        company_counts = df[df['Company'] != 'Unknown']['Company'].value_counts().reset_index()
+        company_dup = []
+        for i in range(len(company_counts)):
+            if company_counts['Company'][i] > 1:
+                company_dup.append(company_counts['index'][i])
+        for i in company_dup:
+            company_drop = list(df[df['Company'] == i][['Symbol','Company']].index)[1:]
+            df.drop(company_drop,inplace=True)
+        df.reset_index(drop=True,inplace=True)
     else:
         return 'Dataset not found.'
 
@@ -205,15 +216,30 @@ def greater_price(data,week=52,date='2021-09-24'):
 
     return df
 
+def market_overview_plot(data,date='2021-09-24'):
+    df = top_industry_marketcap(data,industry='all',date=date,get_all=True)[['Industry','Symbol','MarketCap']]
+    tree_fig = px.treemap(
+        df,path=['Industry','Symbol'],
+        values = 'MarketCap',
+        color = 'MarketCap',
+        color_continuous_scale='Mint',
+        title = 'Market Capialization Overview'
+    )
+
+    return tree_fig
+
+
 
 if __name__ == "__main__":
     data_market = full_marketcap_price(data='market')
-    data_price = full_marketcap_price(data='price')
+    # data_price = full_marketcap_price(data='price')
     # print(profit_comparision(data=data_price,before='2021-08-06',after='2021-09-24',top=10, desc= True))
     # print(profit_comparision(data=data_price,before='2020-02-11',after='2021-09-24',top=10,desc=False))
-    print(greater_price(data=data_price,week=52,date='2021-09-24'))
+    # print(greater_price(data=data_price,week=52,date='2021-09-24'))
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',top=5,desc=True,industry='all'))
-    # print(top_industry_marketcap(data=data_market,date='2021-09-24',get_all=True))
+    # print(top_industry_marketcap(data=data_market,date='2021-09-24',get_all=True,industry='all'))
     # print(data_price)
-    
+    overview_plot = market_overview_plot(data_market,date='2021-09-24')
+    overview_plot.show()
+
     
