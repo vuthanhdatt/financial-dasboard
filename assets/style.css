@@ -66,7 +66,7 @@ body {
 
 }
 #plot-1-picker  .CalendarDay__selected{
-  background: #004172;
+  background: #accae7;
   border: 1px double black;
 
 }
@@ -156,7 +156,7 @@ body {
 
 }
 #plot-2-picker  .CalendarDay__selected{
-  background: #004172;
+  background: #accae7;
   border: 1px double black;
 
 }
@@ -188,15 +188,44 @@ body {
   grid-template-rows: repeat(10,1fr);
   gap: 10px;
 }
-.drop-down-plot-3 {
+.plot-3-date {
   grid-row-start: 1;
 }
 
 .plot-3-plot {
   grid-row-start: 2;
   grid-row-end: 12;
+  border: 1px solid black;
 }
 
+#plot-3-picker .DateInput_input__focused {
+  background-color: #f2f0eb;
+  border-bottom: 1px solid black
+}
+
+#plot-3-picker .DateInput_input {
+  background-color: #f2f0eb;
+  border: 1px solid black;
+}
+
+#plot-3-picker .CalendarMonth {
+  background-color: #f2f0eb
+}
+
+#plot-3-picker .CalendarMonthGrid {
+  background-color: #f2f0eb
+}
+#plot-3-picker .DayPicker_transitionContainer__horizontal{
+  background-color: #f2f0eb;
+  border: 1px solid black;
+}
+#plot-3-picker .CalendarDay__default{
+  background: #f2f0eb;
+  border: 1px double black;
+}
+#plot-3-picker .CalendarDay__selected {
+  background-color: #accae7
+}
 .plot-4 {
   
   grid-column-start: 1;
@@ -225,7 +254,7 @@ body {
 
 }
 #plot-4-dropdown .Select-menu-outer {
-  background: #D6E4EA;
+  background: #f2f0eb;
   font-family: "Lucida Console", "Courier New", monospace;
 }
 .plot-5{
