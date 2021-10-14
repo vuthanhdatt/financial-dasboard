@@ -209,13 +209,12 @@ def greater_price(data,week=52,date='2021-09-24'):
 
     df = df_price.loc[:,head_available:tail_available]
     df = df.join(df_price[date])
-    df['Max Price'] = df_price.loc[:,head_available:tail_available].max(axis=1)
+    df['Max Price'] = df.loc[:,head_available:tail_available].max(axis=1)
     df = df_price[['Company','Symbol']].join(df)
     
     df = df[(df[date] > df['Max Price'])].reset_index(drop=True)
-    df = df.set_index('Company')
+    df.set_index('Company',inplace=True)
     
-
     return df
 
 def market_overview_plot(data,date='2021-09-24'):
@@ -241,7 +240,7 @@ if __name__ == "__main__":
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',top=5,desc=True,industry='all'))
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',get_all=True,industry='all'))
     # print(data_price)
-    print(top_industry_marketcap(data_market,industry='all',date='2021-09-24',get_all=True)[['Industry','Symbol','MarketCap',]])
+    print(top_industry_marketcap(data_market,industry='all',date='2021-09-24',get_all=True)[['Industry','Symbol','MarketCap']])
     # overview_plot = market_overview_plot(data_market,date='2021-09-24')
     # overview_plot.show()
 
