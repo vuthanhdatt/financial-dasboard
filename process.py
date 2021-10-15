@@ -15,14 +15,14 @@ def clean_marketcap_price(data='market'):
     
     #Extract the Symbol in order to set the columns name
     symbol_name = [
-        str(name) for name in list(pd.read_excel(config.MARKETCAP_PRICE,sheet_name='Market cap')['Symbol'])
+        str(name) for name in list(pd.read_csv(config.MARKETCAP)['Symbol'])
     ]
     if data == 'market':
         #Load data and drop useless columns and rows
-        df = pd.read_excel(config.MARKETCAP_PRICE,sheet_name='Market cap',skiprows=3).iloc[:,4:]
+        df = pd.read_csv(config.MARKETCAP,skiprows=3).iloc[:,4:]
     elif data == 'price':
         #Load data and drop useless columns and rows
-        df = pd.read_excel(config.MARKETCAP_PRICE,sheet_name='Price',skiprows=3).iloc[:,4:]
+        df = pd.read_csv(config.PRICE,skiprows=3).iloc[:,4:]
     else:
         return 'Dataset not found.'
     #Delete residual rows
@@ -61,7 +61,7 @@ def full_marketcap_price(data='market'):
     """
 
     if (data == 'market') or (data == 'price'):
-        company = pd.read_excel(config.COMPANY)
+        company = pd.read_csv(config.COMPANY)
         #Choose columns to merge and rename them
         to_merge = company[['Symbol','Name','NAME','COMPANY NAME','RIC','ICB INDUSTRY NAME']]
         to_merge.columns = ['Symbol','Name','Status Name','Company','RIC','Industry']
@@ -233,14 +233,22 @@ def market_overview_plot(data,date='2021-09-24'):
 
 if __name__ == "__main__":
     data_market = full_marketcap_price(data='market')
-    # data_price = full_marketcap_price(data='price')
-    # print(profit_comparision(data=data_price,before='2021-08-06',after='2021-09-24',top=10, desc= True))
-    # print(profit_comparision(data=data_price,before='2020-02-11',after='2021-09-24',top=10,desc=False))
+    data_price = full_marketcap_price(data='price')
+
+    ##Question 1:
+    # print(profit_comparision(data=data_price,before='2021-09-01',after='2021-09-24',top=10, desc= True))
+
+    ##Question 2:
+    # print(profit_comparision(data=data_price,before='2021-01-01',after='2021-09-24',top=10,desc=False))
+
+    ##Question 3:
     # print(greater_price(data=data_price,week=52,date='2021-09-24'))
+
+    ##Question 4:
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',top=5,desc=True,industry='all'))
+
+    ##Question 5:
     # print(top_industry_marketcap(data=data_market,date='2021-09-24',get_all=True,industry='all'))
-    # print(data_price)
-    print(top_industry_marketcap(data_market,industry='all',date='2021-09-24',get_all=True)[['Industry','Symbol','MarketCap']])
     # overview_plot = market_overview_plot(data_market,date='2021-09-24')
     # overview_plot.show()
 
