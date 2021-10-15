@@ -38,6 +38,7 @@ fig.update_traces(root_color = '#f2f0eb',
 hovertemplate= 'labels: %{label}<br>MarketCap: %{value} billion SGD <br>Parent: %{parent}<br>Company: %{customdata[0]}<extra></extra>')
 
 app = dash.Dash(__name__)
+server = app.server
 
 app.layout = html.Div(
     children=[
