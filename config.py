@@ -1,2 +1,3 @@
-COMPANY = './data/Singapore ICB.xlsx'
-MARKETCAP_PRICE = './data/Singapore - Price - Market Cap.xlsx'
+COMPANY = './data/ICB.csv'
+PRICE = './data/Price.csv'
+MARKETCAP = './data/Market_cap.csv'
