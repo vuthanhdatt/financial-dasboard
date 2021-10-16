@@ -1,4 +1,7 @@
+/* Customize stylesheet for app.py */
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Sans+Pro:wght@200;400&display=swap');
+
 body {
   margin: 0;
 }
@@ -12,7 +15,7 @@ body {
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(30, 1fr);
   box-sizing: border-box;
-  column-gap: 5px;
+  column-gap: 10px;
   row-gap: 15px;
   background-color: #f2f0eb;
 }
@@ -233,6 +236,7 @@ body {
 #plot-3-picker .CalendarDay__selected {
   background-color: #718BA5
 }
+
 .plot-4 {
   
   grid-column-start: 1;

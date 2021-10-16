@@ -39,10 +39,11 @@ fig5.update_layout(margin = dict(t=0, l=0, r=0, b=0),
                     treemapcolorway = ['#718ba5', '#7994ae','#829eb8','#88a4bf','#90acc8'
                                         ,'#96b2ce','#99b6d2','#9dbad6','#a2c0dc','#a8c6e2','#accae7'])
 fig5.update_traces(root_color = '#f2f0eb',
-                    hovertemplate= 'labels: %{label}<br>MarketCap: %{value} billion SGD <br>Parent: %{parent}<br>Company: %{customdata[0]}<extra></extra>')
+                    hovertemplate= 'Labels: %{label}<br><b>MarketCap: %{value} billion SGD </b><br>Parent: %{parent}<br>Company: %{customdata[0]}<extra></extra>')
 
 #Start app
 app = dash.Dash(__name__)
+app.title = 'Singapore Dashboard'
 #For deployment
 server = app.server
 
@@ -116,7 +117,7 @@ app.layout = html.Div(
         html.Div(
             [
                 html.P(
-                    ['This project created by ',
+                    ['This project is created by ',
                     html.A(
                         '@vuthanhdatt', href='https://github.com/vuthanhdatt',target='_blank'
                     ),
@@ -211,15 +212,8 @@ def draw_fig2(start_date, end_date):
     fig2_df = change_tick(fig2_df)
 
     fig = px.bar(fig2_df, x='Symbol', y='Profit', hover_data=['Company', start_date, end_date])
-    fig.update_layout(title_text='TOP 10 LOWEST RETURN RATES',
-                        title_yref='container',
-                        title_y=0.97,
-                        title_xref='paper',
-                        title_x=0.5,
-                        margin_b = 0,
-                        margin_l= 0,
-                        margin_r = 5,
-                        margin_t = 30, 
+    fig.update_layout(title= dict(text='TOP 10 LOWEST RETURN RATES',yref='container',y=0.97,xref='paper',x=0.5),
+                        margin=dict(b=0,l=0,r=5,t=30), 
                         paper_bgcolor='#f2f0eb',
                         plot_bgcolor='#f2f0eb',
                         modebar_add=['drawopenpath','eraseshape'],
@@ -244,7 +238,6 @@ def draw_fig2(start_date, end_date):
 def draw_fig3(date_value):
     fig3_df = greater_price(data=data_price, date=date_value)
     fig3_df = change_tick(fig3_df)
-
     traces = [go.Scatter(
     x = fig3_df.columns,
     y = fig3_df.loc[rowname],
@@ -252,17 +245,12 @@ def draw_fig3(date_value):
     name = fig3_df.loc[rowname][0],
     customdata= [rowname]*len(fig3_df.columns),
     hovertemplate= 'Date: %{x} <br> <b>Price: %{y} SGD</b><br> Company: %{customdata}'
-)for rowname in fig3_df.index]
+    ) for rowname in fig3_df.index]
     fig = go.Figure(data=traces)
-    fig.update_layout(title_text='COMPANY ON HIGHEST PRICE IN 52 WEEKS',
-                        title_yref='container',
-                        title_y=0.97,
-                        title_xref='paper',
-                        title_x=0.5,
-                        margin_b = 0,
-                        margin_l= 0,
-                        margin_r = 5,
-                        margin_t = 30, paper_bgcolor='#f2f0eb',
+    fig.update_layout(title= dict(text='COMPANIES ON HIGHEST PRICE IN 52 WEEKS',
+                        yref='container',y=0.97,xref='paper',x=0.5),
+                        margin=dict(b=0,l=0,r=5,t=30),
+                        paper_bgcolor='#f2f0eb',
                         plot_bgcolor='#f2f0eb',
                         modebar_add=['drawopenpath','eraseshape'],
                         modebar_remove=['lasso'],
@@ -286,23 +274,22 @@ def draw_fig3(date_value):
 )
 def  draw_fig4(value):
     fig4_df = top_industry_marketcap(data=data_market, industry=value)
-
+    fig4_df = change_tick(fig4_df)
     fig = px.bar(fig4_df, x='Symbol', y='MarketCap', hover_data=['Company'])
-    fig.update_layout(title_text='TOP 5 BIGGEST COMPANY BY INDUSTRY',
-                        title_yref='container',
-                        title_y=0.97,
-                        title_xref='paper',
-                        title_x=0.5,
-                        margin_b = 0,
-                        margin_l= 0,
-                        margin_r = 5,
-                        margin_t = 30, paper_bgcolor='#f2f0eb',
+    fig.update_layout(title= dict(text='TOP 5 BIGGEST COMPANY BY INDUSTRY',yref='container',y=0.97,xref='paper',x=0.5),
+                        margin=dict(b=0,l=0,r=5,t=30), 
+                        paper_bgcolor='#f2f0eb',
                         plot_bgcolor='#f2f0eb',
                         modebar_add=['drawopenpath','eraseshape'],
                         modebar_remove=['lasso'],
                         modebar_orientation='v')
     fig.update_xaxes(title_text= 'Company')
-    fig.update_yaxes(title_text= 'Marketcap(Billion)', showgrid=False,zerolinecolor='#000000',zeroline=True,linecolor='#000000',zerolinewidth=0.3)
+    fig.update_yaxes(title_text= 'Marketcap(Billion)', 
+                        showgrid=False,
+                        zerolinecolor='#000000',
+                        zeroline=True,
+                        linecolor='#000000',
+                        zerolinewidth=0.3)
     fig.update_traces(marker_color='#718BA5', marker_line_color='#000000',
                         hovertemplate= 'Symbol: %{x}<br><b>MarketCap: %{y} Billion SGD</b><br>Company: %{customdata[0]}')
     return fig
