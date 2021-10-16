@@ -1,21 +1,23 @@
-
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import plotly.express as px
+import plotly.graph_objects as go
 from datetime import date
 from dash.dependencies import Input, Output
-import plotly.graph_objects as go
+from process import greater_price, profit_comparision,full_marketcap_price, top_industry_marketcap   
 
-
-import plotly.express as px
-
-from process import greater_price, profit_comparision,full_marketcap_price, top_industry_marketcap        
+#Loading data
 data_price = full_marketcap_price(data='price')  
 data_market = full_marketcap_price(data='market')
+
+#Create options for dropdown
 list_industry =list(data_market['Industry'].unique())    
 options = []
 for industry in list_industry:
     options.append(dict(zip(['label','value'],[industry,industry])))
+
+#Remove T in symbol
 def change_tick(data):
     symbols = list(data['Symbol'])
     tick = []
@@ -27,19 +29,24 @@ def change_tick(data):
             tick.append(symbol)
     data['Symbol'] = tick
     return data
+
+#Drawing treemap
 plot5_df = top_industry_marketcap(data_market,industry='all',date='2021-09-24',get_all=True)[['Industry','Symbol','MarketCap','Company']]
 plot5_df = change_tick(plot5_df)
-fig = px.treemap(plot5_df, path=[px.Constant("Singapore Stock Marketcap"), 'Industry', 'Symbol'],
+fig5 = px.treemap(plot5_df, path=[px.Constant("Singapore Stock Marketcap"), 'Industry', 'Symbol'],
                     values='MarketCap',hover_data=['Company'])
-fig.update_layout(margin = dict(t=0, l=0, r=0, b=0),
+fig5.update_layout(margin = dict(t=0, l=0, r=0, b=0),
                     treemapcolorway = ['#718ba5', '#7994ae','#829eb8','#88a4bf','#90acc8'
                                         ,'#96b2ce','#99b6d2','#9dbad6','#a2c0dc','#a8c6e2','#accae7'])
-fig.update_traces(root_color = '#f2f0eb',
-hovertemplate= 'labels: %{label}<br>MarketCap: %{value} billion SGD <br>Parent: %{parent}<br>Company: %{customdata[0]}<extra></extra>')
+fig5.update_traces(root_color = '#f2f0eb',
+                    hovertemplate= 'labels: %{label}<br>MarketCap: %{value} billion SGD <br>Parent: %{parent}<br>Company: %{customdata[0]}<extra></extra>')
 
+#Start app
 app = dash.Dash(__name__)
+#For deployment
 server = app.server
 
+#App layout
 app.layout = html.Div(
     children=[
         html.Div(
@@ -96,7 +103,7 @@ app.layout = html.Div(
                     min_date_allowed=date(2020, 9, 24),
                     max_date_allowed=date(2021, 9, 24),
                     initial_visible_month=date(2021, 9, 24),
-                    date=date(2021, 9, 24,),
+                    date=date(2021, 9, 24),
                     className= 'plot-3-date'
                 ),
                 dcc.Graph(
@@ -108,7 +115,32 @@ app.layout = html.Div(
         ),
         html.Div(
             [
-                'credit'
+                html.P(
+                    ['This project created by ',
+                    html.A(
+                        '@vuthanhdatt', href='https://github.com/vuthanhdatt',target='_blank'
+                    ),
+                    ' ',
+                    html.A(
+                        '@caolong', href='https://github.com/123olala',target='_blank'
+                    ),
+                    ' ',
+                    html.A(
+                        '@giaplong', href='https://github.com/LNPLoc',target='_blank'
+                    ),
+                    ' ',
+                      html.A(
+                        '@phuloc', href='https://github.com/LNPLoc',target='_blank'
+                    ),
+                    ' ',
+                    html.A(
+                        '@hathanh.', href='https://github.com/hathanhtna',target='_blank'
+                    ),
+                    ' For more information, visiting ',
+                    html.A(
+                        'Github', href='https://github.com/vuthanhdatt/financial-dasboard',target='_blank'
+                    )]
+                )
 
             ], className= 'credit'
         ),
@@ -129,7 +161,9 @@ app.layout = html.Div(
             ], className= 'plot-4'
         ),
         dcc.Graph(
-            figure= fig, className='plot-5'
+            figure= fig5, 
+            className='plot-5',
+            config= {'displaylogo': False}
         )
 
     ], className= 'container'
@@ -143,25 +177,16 @@ app.layout = html.Div(
     Input('plot-1-picker', 'end_date'))
 
 def draw_fig1(start_date, end_date):
-
+    #Take DataFrame
     fig1_df = profit_comparision(data=data_price,before=start_date, after=end_date)
     fig1_df = change_tick(fig1_df)
 
     fig = px.bar(fig1_df, x='Symbol', y='Profit', hover_data=['Company', start_date, end_date])
-    fig.update_layout(title_text='TOP 10 HIGHEST RETURN RATES',
-                        title_yref='container',
-                        title_y=0.97,
-                        title_xref='paper',
-                        title_x=0.5,
-                        margin_b = 0,
-                        margin_l= 0,
-                        margin_r = 5,
-                        margin_t = 30,
+    fig.update_layout(title= dict(text='TOP 10 HIGHEST RETURN RATES',yref='container',y=0.97,xref='paper',x=0.5),
+                        margin=dict(b=0,l=0,r=5,t=30),
                         paper_bgcolor='#f2f0eb',
                         plot_bgcolor='#f2f0eb',
-                        modebar_add=['drawopenpath','eraseshape'],
-                        modebar_remove=['lasso'],
-                        modebar_orientation='v')
+                        modebar=dict(add=['drawopenpath','eraseshape'],remove=['lasso'],orientation='v'))
     fig.update_xaxes(title_text= 'Company')
     fig.update_yaxes(title_text= 'Profit(%)',
                         showgrid=False,

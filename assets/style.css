@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Sans+Pro:wght@200;400&display=swap');
 body {
   margin: 0;
 }
@@ -54,7 +55,8 @@ body {
 #plot-1-picker  .DateRangePicker_picker{
   background-color: #f2f0eb;
   border: 1px solid black;
-  font-family: "Lucida Console", "Courier New", monospace;
+  font-family: 'Roboto', sans-serif;
+
 }
 #plot-1-picker .DayPicker__horizontal{
   background-color: #f2f0eb;
@@ -66,7 +68,7 @@ body {
 
 }
 #plot-1-picker  .CalendarDay__selected{
-  background: #accae7;
+  background: #718BA5;
   border: 1px double black;
 
 }
@@ -79,7 +81,7 @@ body {
 }
 #plot-1-picker .DateInput_input{
   background-color: #f2f0eb;
-  font-family: "Lucida Console", "Courier New", monospace;
+  font-family: 'Roboto', sans-serif;
   font-size: medium;
 }
 #plot-1-picker .DateInput_input__focused{
@@ -104,8 +106,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Lucida Console", "Courier New", monospace;
-  color: red;
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #383b3f;
+  font-size: 30px;
+
 }
 
 /* Add style for plot 2 */
@@ -144,7 +148,8 @@ body {
 #plot-2-picker  .DateRangePicker_picker{
   background-color: #f2f0eb;
   border: 1px solid black;
-  font-family: "Lucida Console", "Courier New", monospace;
+  font-family: 'Roboto', sans-serif;
+
 }
 #plot-2-picker .DayPicker__horizontal{
   background-color: #f2f0eb;
@@ -156,7 +161,7 @@ body {
 
 }
 #plot-2-picker  .CalendarDay__selected{
-  background: #accae7;
+  background: #718BA5;
   border: 1px double black;
 
 }
@@ -169,7 +174,7 @@ body {
 }
 #plot-2-picker .DateInput_input{
   background-color: #f2f0eb;
-  font-family: "Lucida Console", "Courier New", monospace;
+  font-family: 'Roboto', sans-serif;
   font-size: medium;
 }
 #plot-2-picker .DateInput_input__focused{
@@ -206,10 +211,12 @@ body {
 #plot-3-picker .DateInput_input {
   background-color: #f2f0eb;
   border: 1px solid black;
+  font-family: 'Roboto', sans-serif;
 }
 
 #plot-3-picker .CalendarMonth {
-  background-color: #f2f0eb
+  background-color: #f2f0eb;
+  font-family: 'Roboto', sans-serif;
 }
 
 #plot-3-picker .CalendarMonthGrid {
@@ -224,7 +231,7 @@ body {
   border: 1px double black;
 }
 #plot-3-picker .CalendarDay__selected {
-  background-color: #accae7
+  background-color: #718BA5
 }
 .plot-4 {
   
@@ -250,12 +257,13 @@ body {
 #plot-4-dropdown .Select-control {
   background-color: #f2f0eb;
   border: 1px solid black;
-  font-family: "Lucida Console", "Courier New", monospace;
-
+  font-family: 'Roboto', sans-serif;
+  border-radius: 0px
 }
 #plot-4-dropdown .Select-menu-outer {
   background: #f2f0eb;
-  font-family: "Lucida Console", "Courier New", monospace;
+  font-family: 'Roboto', sans-serif;
+
 }
 .plot-5{
   
@@ -264,10 +272,15 @@ body {
   grid-row-start: 4;
   grid-row-end: 21;
   border: 1px solid black;
+
 }
 .credit {
   border: 1px dashed black;
   grid-row-start: 30;
   grid-column-start: 1;
   grid-column-end: 7;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
