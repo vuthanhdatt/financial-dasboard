@@ -56,8 +56,8 @@ app.layout = html.Div(
                     id='plot-1-picker',
                     min_date_allowed=date(2019, 9, 24),
                     max_date_allowed=date(2021, 9, 24),
-                    start_date_placeholder_text = '2021-01-01',
-                    start_date= '2021-01-01',
+                    start_date_placeholder_text = '2021-09-01',
+                    start_date= '2021-09-01',
                     end_date_placeholder_text = '2021-09-24',
                     end_date= '2021-09-24',
                     className= 'plot-1-date'
@@ -127,7 +127,7 @@ app.layout = html.Div(
                     ),
                     ' ',
                     html.A(
-                        '@giaplong', href='https://github.com/LNPLoc',target='_blank'
+                        '@giaplong', href='https://github.com/GiapHoangLong',target='_blank'
                     ),
                     ' ',
                       html.A(
@@ -248,7 +248,7 @@ def draw_fig3(date_value):
     ) for rowname in fig3_df.index]
     fig = go.Figure(data=traces)
     fig.update_layout(title= dict(text='COMPANIES ON HIGHEST PRICE IN 52 WEEKS',
-                        yref='container',y=0.97,xref='paper',x=0.5),
+                        yref='container',y=0.97,xref='container',x=0.5),
                         margin=dict(b=0,l=0,r=5,t=30),
                         paper_bgcolor='#f2f0eb',
                         plot_bgcolor='#f2f0eb',
@@ -276,7 +276,7 @@ def  draw_fig4(value):
     fig4_df = top_industry_marketcap(data=data_market, industry=value)
     fig4_df = change_tick(fig4_df)
     fig = px.bar(fig4_df, x='Symbol', y='MarketCap', hover_data=['Company'])
-    fig.update_layout(title= dict(text='TOP 5 BIGGEST COMPANY BY INDUSTRY',yref='container',y=0.97,xref='paper',x=0.5),
+    fig.update_layout(title= dict(text='TOP 5 BIGGEST COMPANIES BY INDUSTRY',yref='container',y=0.97,xref='paper',x=0.5),
                         margin=dict(b=0,l=0,r=5,t=30), 
                         paper_bgcolor='#f2f0eb',
                         plot_bgcolor='#f2f0eb',
