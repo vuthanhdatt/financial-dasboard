@@ -58,6 +58,7 @@ In order to improve app performance, we converted ```.xlsx``` file to ```.csv```
 - There are some companies having the price that is unchanged time by time or some companies are delisted or suspended before the time this data is recorded, which is not useful for analyzing, so it was also dropped. There are some companies that are delisted or suspended after the time data is recorded, these observations should be modified in order to be no misunderstanding.
 - The dataframe needs to be refilled due to some missing entrance data.
 #### Data Merging - Final Dataframe
+- Merging company information with its price or marketcap value.
 - After merging data, noticed that there are some Exchange-traded fund and company was not listed in Singapore, so these observations should be removed.
 - The final dataframe also has some duplicated companies due to the error while collecting data that need to be dropped.
 ### 3. Data Visualization
