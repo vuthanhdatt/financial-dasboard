@@ -5,3 +5,5 @@
 - App: https://singapore-dashboard.herokuapp.com/
 ## Data Description
 ## Workflow
+### 1. Data Preprocessing
+### 2. Data Visualization
