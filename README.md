@@ -25,7 +25,7 @@
 #### Market Value Sheet 
 - Data in these fields is inconsistent and is arranged not according to any trends.
 - Field Name, Symbol, RIC, Type link to with field Name, Symbol, RIC, Type in [Singapore ICB](https://github.com/vuthanhdatt/financial-dasboard/blob/main/data/Singapore%20ICB.xlsx).
-- Each column Name company **represents company’s capitalization**. 
+- Each column Name company **represents company’s capitalization at that time**. 
 
 
 ## Workflow
@@ -48,7 +48,7 @@
 ```
 
 ### 2. Data Preprocessing
-In order to improve app performance, we converted ```.xlsx``` file to ```.csv``` file. However, for convenient, we still assume using ```.xlsx``` file for all explanation below. All processing returns are in ``process.py`` file
+In order to improve app performance, we converted ```.xlsx``` file to ```.csv``` file. However, for convenience, we still assume using ```.xlsx``` file for all explanation below. All processing returns are in ``process.py`` file
 
 #### Singapore ICB (Singapore ICB.xlsx) Cleaning
 - This dataframe only needs to be filled the missing values and dropped some useless columns.
@@ -68,7 +68,7 @@ There are 3 type of charts in this dashboard: [Bar charts](https://plotly.com/py
 
 - To present top 10 companies have highest/lowest return rates and top 5 companies have biggest marketcap, we using **Bar chart**. Users can interactive with these figures, change dates, change industries, draw, zoom in, etc.
 - To have an overview of market, we using **Treemap chart**. With this chart, users can click on any industry or company for more information. Users can also know overall marketcap or marketcap by industry.
-- With companies on highest price in 52 weeks, we using **Line chart**. With this chart, users can easily check pirce of these companies at any time over 52 weeks past. Users can also choose date, note that, with date have companies with unscale prices, for example, 7 SGD and 0.5 SGD, users can click on company legends to remove this company from chart. This help our chart more beautiful.
+- With companies on highest price in 52 weeks, we using **Line chart**. With this chart, users can easily check pirce of these companies at any time over 52 weeks past. Users can also choose date, note that, with date have companies with unscale prices, for example, 7 SGD and 0.5 SGD, users can click on company legends to remove this company from chart. This help our chart is more beautiful.
 #### App layout
 
 We redefined all default Dash layout in ``style.css``. This require some little knowledge about [CSS](https://en.wikipedia.org/wiki/CSS). Since this not relevant to our subject, we will not mention here.
