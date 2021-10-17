@@ -236,7 +236,7 @@ if __name__ == "__main__":
     data_price = full_marketcap_price(data='price')
 
     ##Question 1:
-    # print(profit_comparision(data=data_price,before='2021-09-01',after='2021-09-24',top=10, desc= True))
+    #print(profit_comparision(data=data_price,before='2021-01-01',after='2021-09-24',top=10, desc= True))
 
     ##Question 2:
     # print(profit_comparision(data=data_price,before='2021-01-01',after='2021-09-24',top=10,desc=False))
