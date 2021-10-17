@@ -6,6 +6,8 @@
 ## Data Description
 - Data is collected from 24th, September 2019 to 24th, September, 2021.
 - Database - a data set distributed in rows and columns. All information in the database is contained in the records and fields.
+### Singapore ICB (Singapore ICB.xlsx)
+### Singapore -  Price – Market Cap ()
 ## Workflow
 ### 1. Data Preprocessing
 ### 2. Data Visualization
