@@ -183,7 +183,7 @@ def draw_fig1(start_date, end_date):
     fig1_df = change_tick(fig1_df)
 
     fig = px.bar(fig1_df, x='Symbol', y='Profit', hover_data=['Company', start_date, end_date])
-    fig.update_layout(title= dict(text='TOP 10 HIGHEST RETURN RATES',yref='container',y=0.97,xref='paper',x=0.5),
+    fig.update_layout(title= dict(text='TOP 10 HIGHEST RETURN RATES',yref='container',y=0.97,xref='container',x=0.5),
                         margin=dict(b=0,l=0,r=5,t=30),
                         paper_bgcolor='#f2f0eb',
                         plot_bgcolor='#f2f0eb',
@@ -212,7 +212,7 @@ def draw_fig2(start_date, end_date):
     fig2_df = change_tick(fig2_df)
 
     fig = px.bar(fig2_df, x='Symbol', y='Profit', hover_data=['Company', start_date, end_date])
-    fig.update_layout(title= dict(text='TOP 10 LOWEST RETURN RATES',yref='container',y=0.97,xref='paper',x=0.5),
+    fig.update_layout(title= dict(text='TOP 10 LOWEST RETURN RATES',yref='container',y=0.97,xref='container',x=0.5),
                         margin=dict(b=0,l=0,r=5,t=30), 
                         paper_bgcolor='#f2f0eb',
                         plot_bgcolor='#f2f0eb',
@@ -276,7 +276,7 @@ def  draw_fig4(value):
     fig4_df = top_industry_marketcap(data=data_market, industry=value)
     fig4_df = change_tick(fig4_df)
     fig = px.bar(fig4_df, x='Symbol', y='MarketCap', hover_data=['Company'])
-    fig.update_layout(title= dict(text='TOP 5 BIGGEST COMPANIES BY INDUSTRY',yref='container',y=0.97,xref='paper',x=0.5),
+    fig.update_layout(title= dict(text='TOP 5 BIGGEST COMPANIES BY INDUSTRY',yref='container',y=0.97,xref='container',x=0.5),
                         margin=dict(b=0,l=0,r=5,t=30), 
                         paper_bgcolor='#f2f0eb',
                         plot_bgcolor='#f2f0eb',
